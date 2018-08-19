@@ -1,0 +1,36 @@
+{
+  "name": "webgl-demos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --config webpack.dev.config.js --open "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StuRuby/webgl-demos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "progress-bar-webpack-plugin": "^1.11.0",
+    "style-loader": "^0.22.1",
+    "url-loader": "^1.1.0",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
+  },
+  "bugs": {
+    "url": "https://github.com/StuRuby/webgl-demos/issues"
+  },
+  "homepage": "https://github.com/StuRuby/webgl-demos#readme",
+  "dependencies": {
+    "gl-matrix": "^2.7.1",
+    "page": "^1.8.6"
+  }
+}
