@@ -5,8 +5,9 @@ import pickedFace from './apps/picked/picked-face';
 import hud from './apps/hud';
 import webpage from './apps/hud/webpage';
 import fog from './apps/fog/fog';
+import drawRoundPoint from './apps/draw/drawRoundPoint';
 
 page('/', function () {
-    fog();
+    drawRoundPoint();
 });
 page();
