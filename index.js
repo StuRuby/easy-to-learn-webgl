@@ -7,7 +7,9 @@ import webpage from './apps/hud/webpage';
 import fog from './apps/fog/fog';
 import drawRoundPoint from './apps/draw/drawRoundPoint';
 
+import programObjects from './apps/toggleShaders/programObjects';
+
 page('/', function () {
-    drawRoundPoint();
+    programObjects();
 });
 page();
