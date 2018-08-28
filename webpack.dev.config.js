@@ -37,6 +37,10 @@ const webpackConfig = {
             {
                 test: /\.(png|gif|svg|xml|jpe?g|JPG|obj|mtl|ply)$/,
                 use: ['url-loader']
+            },
+            {
+                test: /\.glsl$/,
+                use: ['webpack-glsl']
             }
         ]
     },
