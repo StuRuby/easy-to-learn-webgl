@@ -23,8 +23,7 @@
     "url-loader": "^1.1.0",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5",
-    "webpack-glsl-loader": "^1.0.1"
+    "webpack-dev-server": "^3.1.5"
   },
   "bugs": {
     "url": "https://github.com/StuRuby/webgl-demos/issues"

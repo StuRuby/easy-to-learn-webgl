@@ -8,8 +8,9 @@ import fog from './apps/fog/fog';
 import drawRoundPoint from './apps/draw/drawRoundPoint';
 
 import programObjects from './apps/toggleShaders/programObjects';
+import frameBufferObject from './apps/frameBuffers/frame_buffer_object';
 
 page('/', function () {
-    programObjects();
+    frameBufferObject();
 });
 page();
