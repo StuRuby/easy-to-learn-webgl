@@ -289,7 +289,7 @@ function initTextures(gl) {
         gl.bindTexture(gl.TEXTURE_2D, null);
     };
 
-    image.src = require('../../assets/girl.jpg');
+    image.src = require('../../assets/sky_cloud.jpg');
     return texture;
 }
 
@@ -462,6 +462,7 @@ function drawTexturedObject(gl, program, obj, texture) {
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indicesBuffer);
+    // gl.enable(gl.CULL_FACE);
     gl.drawElements(gl.TRIANGLES, obj.numIndices, obj.indicesBuffer.type, 0);
 }
 /**
