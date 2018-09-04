@@ -11,8 +11,9 @@ import programObjects from './apps/toggleShaders/programObjects';
 import frameBufferObject from './apps/frameBuffers/frame_buffer_object';
 
 import shadow from './apps/shadow/shadow';
+import shadow_highup  from './apps/shadow/shadow_highup';
 
 page('/', function () {
-    shadow();
+    shadow_highup();
 });
 page();
