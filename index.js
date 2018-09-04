@@ -10,7 +10,9 @@ import drawRoundPoint from './apps/draw/drawRoundPoint';
 import programObjects from './apps/toggleShaders/programObjects';
 import frameBufferObject from './apps/frameBuffers/frame_buffer_object';
 
+import shadow from './apps/shadow/shadow';
+
 page('/', function () {
-    frameBufferObject();
+    shadow();
 });
 page();
