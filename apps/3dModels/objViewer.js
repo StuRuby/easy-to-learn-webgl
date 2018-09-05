@@ -17,6 +17,7 @@
 
 
 import { Matrix4 } from '../../utils/gl-matrix';
+import OBJDoc from './OBJDoc';
 
 const VSHADER_SOURCE = `
     attribute vec4 a_Position;
@@ -41,6 +42,12 @@ const FSHADER_SOURCE = `
         gl_FragColor = v_Color;
     }
 `;
+
+
+// Coordinate transformation matrix
+var g_modelMatrix = new Matrix4();
+var g_mvpMatrix = new Matrix4();
+var g_normalMatrix = new Matrix4();
 
 function main() {
     const canvas = document.getElementById('webgl');
@@ -71,11 +78,17 @@ function main() {
         return;
     }
 
+    const model = initVertexBuffers(gl, program);
+    if (!model) {
+        console.log('Failed to set the vertex infomation');
+        return;
+    }
+
     const viewProjMatrix = new Matrix4();
     viewProjMatrix.setPerspective(30.0, canvas.width / canvas.height, 1.0, 5000.0);
     viewProjMatrix.lookAt(0.0, 500.0, 200.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-    // readOBJFile();
+    readOBJFile(require('../../assets/cube.obj'), gl, model, 60, true);
 
     let currentAngle = 0.0;
     const tick = () => {
@@ -153,3 +166,82 @@ function draw(gl, program, angle, viewProjMatrix, model) {
 
     gl.drawElements(gl.TRIANGLES, g_drawingInfo.indices.length, gl.UNSIGNED_SHORT, 0);
 }
+
+function readOBJFile(fileName, gl, model, scale, reverse) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status !== 404) {
+            onReadOBJFile(request.responseText, fileName, gl, model, scale, reverse);
+        }
+    }
+    request.open('GET', fileName, true);
+    request.send();
+}
+
+let g_objDoc = null;
+let g_drawingInfo = null;
+
+function onReadOBJFile(fileString, fileName, gl, o, scale, reverse) {
+    const objDoc = new OBJDoc(fileName);
+    const result = objDoc.parse(fileString, scale, reverse);
+    if (!result) {
+        g_objDoc = null;
+        g_drawingInfo = null;
+        console.log('OBJ file parsing error');
+        return;
+    }
+    g_objDoc = objDoc;
+}
+/**
+ * 
+ * @param {WebGLRenderingContext} gl 
+ * @param {*} program 
+ */
+function initVertexBuffers(gl, program) {
+    const o = new Object();
+    o.vertexBuffer = createEmptyArrayBuffer(gl, program.a_Position, 3, gl.FLOAT);
+    o.normalBuffer = createEmptyArrayBuffer(gl, program.a_Normal, 3, gl.FLOAT);
+    o.colorBuffer = createEmptyArrayBuffer(gl, program.a_Color, 4, gl.FLOAT);
+    o.indexBuffer = gl.createBuffer();
+    if (!o.vertexBuffer || !o.normalBuffer || !o.colorBuffer || !o.indexBuffer) { return null; }
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+    return o;
+}
+
+function onReadComplete(gl, model, objDoc) {
+    // Acquire the vertex coordinates and colors from OBJ file
+    var drawingInfo = objDoc.getDrawingInfo();
+  
+    // Write date into the buffer object
+    gl.bindBuffer(gl.ARRAY_BUFFER, model.vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, drawingInfo.vertices, gl.STATIC_DRAW);
+  
+    gl.bindBuffer(gl.ARRAY_BUFFER, model.normalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, drawingInfo.normals, gl.STATIC_DRAW);
+    
+    gl.bindBuffer(gl.ARRAY_BUFFER, model.colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, drawingInfo.colors, gl.STATIC_DRAW);
+    
+    // Write the indices to the buffer object
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, model.indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawingInfo.indices, gl.STATIC_DRAW);
+  
+    return drawingInfo;
+  }
+
+function createEmptyArrayBuffer(gl, a_attribute, num, type) {
+    const buffer = gl.createBuffer();  // Create a buffer object
+    if (!buffer) {
+        console.log('Failed to create the buffer object');
+        return null;
+    }
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.vertexAttribPointer(a_attribute, num, type, false, 0, 0);  // Assign the buffer object to the attribute variable
+    gl.enableVertexAttribArray(a_attribute);  // Enable the assignment
+
+    return buffer;
+}
+
+export default main;

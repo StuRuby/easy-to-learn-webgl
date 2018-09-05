@@ -11,9 +11,11 @@ import programObjects from './apps/toggleShaders/programObjects';
 import frameBufferObject from './apps/frameBuffers/frame_buffer_object';
 
 import shadow from './apps/shadow/shadow';
-import shadow_highup  from './apps/shadow/shadow_highup';
+import shadow_highup from './apps/shadow/shadow_highup';
+
+import objViewer from './apps/3dModels/objViewer';
 
 page('/', function () {
-    shadow_highup();
+    objViewer();
 });
 page();
